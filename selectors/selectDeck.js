@@ -1,0 +1,1 @@
+export default (decks,id) => decks.filter((deck) => deck.id === id)[0];

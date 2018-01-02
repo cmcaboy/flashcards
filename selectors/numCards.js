@@ -1,0 +1,1 @@
+export default (deck) => deck.cards.length;
