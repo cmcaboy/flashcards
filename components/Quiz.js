@@ -4,12 +4,14 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import selectDeck from '../selectors/selectDeck';
 import {connect} from 'react-redux';
+import QuizComplete from './QuizComplete';
 
 class Quiz extends React.Component {
 
         state = {
             currentQuestion: 0,
-            numCorrect: 0
+            numCorrect: 0,
+            quizComplete: false
         }
 
     flipAnswer = () => {
@@ -17,44 +19,71 @@ class Quiz extends React.Component {
     }
 
     onCorrect = () => {
-
-        this.completeCheck();
-
-        this.setState(() => ({
-            numCorrect: this.state.numCorrect + 1,
-            currentQuestion: this.state.currentQuestion + 1
-        }));
-
-        
-    }
-
-    onIncorrect = () => {
-
-        this.completeCheck();
-
         this.setState((prevState) => ({
             ...prevState,
-            currentQuestion: prevState.currentQuestion + 1
+            numCorrect: this.state.numCorrect + 1
         }));
-
-        
-    }
-
-    completeCheck = () => {
-        if((this.state.currentQuestion + 1) === this.props.deck.cards.length) {
-           this.navigateToComplete(); 
+        console.log(this.state);
+        if(this.completeCheck()) {
+            this.navigateToComplete();
+        } else {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentQuestion: this.state.currentQuestion + 1
+            }));
         }
     }
 
+    onIncorrect = () => {
+        if(this.completeCheck()) {
+            this.navigateToComplete();
+        } else {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentQuestion: prevState.currentQuestion + 1
+            }));
+        }
+    }
+
+    completeCheck = () => {
+        return ((this.state.currentQuestion + 1) === this.props.deck.cards.length) 
+    }
+
     navigateToComplete = () => {
-        this.props.navigation.navigate('QuizComplete',{
-            numCorrect: this.state.numCorrect,
-            numQuestions: this.props.deck.cards.length,
-            deckTitle: this.props.deck.title
-        })
+        this.setState((prevState) => ({
+            ...prevState,
+            quizComplete: true
+        }))
+    }
+
+    resetQuiz = () => {
+        this.setState(() => ({
+            currentQuestion: 0,
+            numCorrect: 0,
+            quizComplete: false
+        }))
+    }
+
+    finishQuiz = () => {
+        this.props.navigation.goBack();
     }
 
     render() {
+
+        console.log('this state at render--- ',this.state);
+
+        if(this.state.quizComplete) {
+            return (
+                <QuizComplete 
+                    numCorrect={this.state.numCorrect}
+                    numQuestion={this.props.deck.cards.length}
+                    deckTitle={this.props.deck.title}
+                    resetQuiz={this.resetQuiz}
+                    finishQuiz={this.finishQuiz}
+                />
+            )
+        } else {
+
         return (
             <View style={styles.questionView}>
                 <Text style={styles.questionTracker}>
@@ -64,7 +93,6 @@ class Quiz extends React.Component {
                 <View style={styles.questionContent}>
                     <View>
                         <Text style={styles.question}>
-                            {console.log('state--- ',this.state)}
                             {this.props.deck.cards[this.state.currentQuestion].question}
                         </Text>
                         <TouchableOpacity
@@ -82,15 +110,15 @@ class Quiz extends React.Component {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.androidIncorrect}
-                            onPress={() => onIncorrect}
+                            onPress={this.onIncorrect}
                         >
                             <Text style={styles.androidIncorrectBtn}>Incorrect</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                
             </View>     
         )
+    }
     }
 }
 

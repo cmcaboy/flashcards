@@ -1,44 +1,87 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
-import {connect} from 'react-redux';
+//import {connect} from 'react-redux';
+import { gray, green, white, black,blue } from '../utils/colors';
 
 const QuizComplete = (props) => {
-
-
-    const finish = () => {
-        console.log('finish');
-    }
-
+    console.log('quizComplete props --- ',props);
+    const questionVar = (props.numCorrect === 1) ? 'question' : 'questions';
     return (
-        <View>
-            <Text>Question Complete</Text>
-            <Text>{props.deckTitle}</Text>
-            <Text>Questions answered correctly: {props.numCorrect}</Text>
-            <Text>Total number of questions: {props.numQuestions}</Text>
-            <TouchableOpacity
-                style={styles.answerTextBtn}
-                onPress={finish}
-            >
-                <Text>Home</Text>
-            </TouchableOpacity>
+        <View style={styles.quizCompleteView}>
+            <View>
+                <Text style={styles.title}>Quiz Complete</Text>
+                <Text style={styles.deckName}>{props.deckTitle}</Text>
+                <Text style={styles.stats}>You answered {props.numCorrect} / {props.numQuestion} {questionVar} correctly.</Text>
+            </View>
+            <View>
+                <TouchableOpacity
+                    style={styles.finishBtn}
+                    onPress={props.finishQuiz}
+                >
+                    <Text style={styles.finishBtnText}>Finish</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.finishBtn}
+                    onPress={props.resetQuiz}
+                >
+                    <Text style={styles.finishBtnText}>Retake Quiz</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    quizCompleteView: {
+        flex: 1,
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+    title: {
+        fontSize: 48,
+        textAlign: 'center',
+        marginBottom: 15,
+        fontWeight: '500'
+    },
+    stats: {
+        fontSize: 20,
+        textAlign: 'center',
+        opacity: 0.8
+    },
+    deckName: {
+        fontSize: 32,
+        textAlign: 'center',
+        opacity: 0.8,
+        marginBottom: 5
+
+    },
     answerTextBtn: {
         color: "red",
         fontSize: 12,
         textAlign: "center"
+    },
+    finishBtn: {
+        marginTop:25,
+        backgroundColor: "black",
+        padding: 10,
+        borderRadius: 5
+    },
+    finishBtnText: {
+        color: white,
+        fontSize: 24,
+        textAlign: 'center'
+    },
+    retakeBtn: {
+        marginTop:25,
+        backgroundColor: "green",
+        padding: 10,
+        borderRadius: 5
+    },
+    retakeBtnText: {
+        color: white,
+        fontSize: 24,
+        textAlign: 'center'
     }
 })
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        deckTitle: ownProps.navigation.state.params.deckTitle,
-        numCorrect: ownProps.navigation.state.params.numCorrect,
-        numQuestions: ownProps.navigation.state.params.numQuestions
-    }
-}
-
-export default connect(mapStateToProps)(QuizComplete);
+export default QuizComplete;
