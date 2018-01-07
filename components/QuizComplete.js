@@ -4,7 +4,6 @@ import {View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import { gray, green, white, black,blue } from '../utils/colors';
 
 const QuizComplete = (props) => {
-    console.log('quizComplete props --- ',props);
     const questionVar = (props.numCorrect === 1) ? 'question' : 'questions';
     return (
         <View style={styles.quizCompleteView}>

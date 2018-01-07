@@ -6,7 +6,7 @@ import reducer from '../reducers';
 import storage from 'redux-persist/es/storage';
 
 const config = {
-      key: 'root',
+      key: 'root3',
       storage
 };
 

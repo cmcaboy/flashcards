@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     question: {
-        fontSize: 48,
+        fontSize: 44,
         textAlign: 'center',
         fontWeight: '500',
         marginBottom: 50
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        deck: selectDeck(state,ownProps.navigation.state.params.id)
+        deck: selectDeck(state.reducer,ownProps.navigation.state.params.id)
     }
 }
 

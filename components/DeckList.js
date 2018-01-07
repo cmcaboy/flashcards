@@ -10,6 +10,7 @@ class DeckList extends Component {
     }
 
     componentWillMount() {
+      /*
         const decks = [
             {
                 id: 0,
@@ -28,7 +29,7 @@ class DeckList extends Component {
                     answer: "FEND"
                   }
                 ]
-            },
+            }
             {
                 id: 1,
                 title: 'Math',
@@ -71,19 +72,21 @@ class DeckList extends Component {
                 cards: []
             }
           ]
+          
           decks.map((deck) => {
             this.props.dispatch(addDeck({title:deck.title,id:deck.id}));
             deck.cards.map((card) => {
               this.props.dispatch(addCard({id:deck.id,question:card.question,answer:card.answer}));
             });
           });
+          */
     }
 
     render() {
+
         return (
             <View style={styles.list}>
                 <ScrollView>
-                {console.log('persist check')}
                 {this.props.decks.map((deck) => (
                         <DeckSummary key={deck.id} numCards={deck.cards.length} {...deck} {...this.props.origProps}/>
                 ))}
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        decks: state,
+        decks: state.reducer,
         origProps: ownProps
     }
 }

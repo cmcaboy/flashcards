@@ -49,15 +49,18 @@ class NewCard extends Component {
                             style={styles.title}
                             onChangeText={(question) => this.setState({question})}
                             value={this.state.question}
-                            maxLength={120}
+                            maxLength={80}
                             placeholder={"Question"}
+                            autoFocus
+                            multiline={true}
                         />
                         <TextInput 
                             style={styles.title}
                             onChangeText={(answer) => this.setState({answer})}
                             value={this.state.answer}
-                            maxLength={120}
+                            maxLength={80}
                             placeholder={"Answer"}
+                            multiline={true}
                         />
                         <TouchableOpacity
                             style={styles.androidSubmitBtn}
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
         marginBottom: 50
     },
     title: {
-        width: 200,
+        width: 300,
         height: 50,
         borderRadius: 2,
         borderColor: gray,

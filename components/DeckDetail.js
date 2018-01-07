@@ -25,7 +25,6 @@ class DeckDetail extends React.Component {
             }
     })
     addCard = () => {
-        console.log('add card');
         this.props.navigation.navigate('NewCard',
             {
                 id:this.props.deck.id,
@@ -34,13 +33,10 @@ class DeckDetail extends React.Component {
             });
     }
     startQuiz = () => {
-        console.log('start quiz');
         this.props.navigation.navigate('Quiz',{id:this.props.deck.id,title:this.props.deck.title});
     }
 
     updateQuizButton = (newState) => {
-        console.log('current state: ',this.state.buttonDisabled);
-        console.log('update quiz button state',newState);
         this.setState(() => ({buttonDisabled:newState,buttonOpacity:0.5}));
 
     }
@@ -136,9 +132,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    
     return {
-        deck: selectDeck(state,ownProps.navigation.state.params.id)
+        deck: selectDeck(state.reducer,ownProps.navigation.state.params.id)
     }
 }
 
