@@ -5,7 +5,8 @@ import {View,
     Platform, 
     StyleSheet, 
     TextInput,
-    Button
+    Button,
+    KeyboardAvoidingView
 } from 'react-native';
 import { gray, green, white, black,blue } from '../utils/colors';
 import {connect} from 'react-redux';
@@ -19,18 +20,31 @@ class NewCard extends Component {
             answer: ''
         }
     }
+    static navigationOptions = {
+        title: `New Card`,
+        headerRight: (<View></View>),
+        headerTitleStyle: 
+            {
+                alignSelf: 'center',
+                textAlign: 'center',
+                fontWeight:'normal',
+                fontSize: 22,
+                color: '#606060'
+            }
+    }
     onPress = () => {
         this.props.dispatch(addCard({
                 id: this.props.deckId,
                 question: this.state.question,
                 answer: this.state.answer
             }));
+        this.props.updateQuizButton(false);
         this.props.navigation.goBack();
     };
 
     render() {
         return (
-                <View style={styles.deck}>
+                <KeyboardAvoidingView style={styles.deck} behavior="padding">
                         <TextInput 
                             style={styles.title}
                             onChangeText={(question) => this.setState({question})}
@@ -51,7 +65,7 @@ class NewCard extends Component {
                         >
                             <Text style={styles.submitBtn}>SUBMIT</Text>
                         </TouchableOpacity>
-                 </View>
+                 </KeyboardAvoidingView>
         )
     }
 }
@@ -106,7 +120,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        deckId: ownProps.navigation.state.params.id
+        deckId: ownProps.navigation.state.params.id,
+        updateQuizButton: ownProps.navigation.state.params.updateQuizButton
     }
 }
 

@@ -13,6 +13,8 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 import { purple, white } from './utils/colors';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Constants } from 'expo';
+import { store, persistor } from './store';
+import { PersistGate } from 'redux-persist/es/integration/react';
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
   return (
@@ -78,11 +80,13 @@ const MainNavigator = StackNavigator({
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={createStore(reducer)}>
-        <View style={{flex: 1}}>
-          <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
-          <MainNavigator />
-        </View>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>       
+          <View style={{flex: 1}}>
+            <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
+            <MainNavigator />
+          </View>
+        </PersistGate>
       </Provider>
     )
   }

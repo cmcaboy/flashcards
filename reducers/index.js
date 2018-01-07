@@ -1,6 +1,6 @@
 const deckReducerDefaultState = [];
 
-export default (state = deckReducerDefaultState, action) => {
+const deckReducer = (state = deckReducerDefaultState, action = {}) => {
   switch(action.type) {
     case 'ADD_DECK':
       return [...state, action.deck]
@@ -19,3 +19,5 @@ export default (state = deckReducerDefaultState, action) => {
       return state;
   }
 }
+
+export default deckReducer;

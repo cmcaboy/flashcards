@@ -83,6 +83,7 @@ class DeckList extends Component {
         return (
             <View style={styles.list}>
                 <ScrollView>
+                {console.log('persist check')}
                 {this.props.decks.map((deck) => (
                         <DeckSummary key={deck.id} numCards={deck.cards.length} {...deck} {...this.props.origProps}/>
                 ))}

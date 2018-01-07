@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Slider, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import DeckDetail from './DeckDetail';
 
-export default function DeckSummary (props) {
+const DeckSummary = (props) => {
 
     const onPress = () => {
-        props.navigation.navigate('DeckDetail', {id:props.id})
+        props.navigation.navigate('DeckDetail', {id:props.id,title:props.title})
     }
 
     return (
@@ -37,3 +37,4 @@ const styles = StyleSheet.create({
     }
 });
 
+export default DeckSummary;

@@ -8,12 +8,25 @@ import QuizComplete from './QuizComplete';
 
 class Quiz extends React.Component {
 
-        state = {
-            currentQuestion: 0,
-            numCorrect: 0,
-            quizComplete: false
-        }
+    state = {
+        currentQuestion: 0,
+        numCorrect: 0,
+        quizComplete: false
+    }
 
+    static navigationOptions = ({navigation}) => ({
+        title: `${navigation.state.params.title} quiz`,
+        headerRight: (<View></View>),
+        headerLeft: (<View></View>),
+        headerTitleStyle: 
+            {
+                alignSelf: 'center',
+                textAlign: 'center',
+                fontWeight:'normal',
+                fontSize: 22,
+                color: '#606060'
+            }
+    })
     flipAnswer = () => {
         console.log('flip to answer');
     }

@@ -4,38 +4,77 @@ import { gray, green, white, black,blue } from '../utils/colors';
 import selectDeck from '../selectors/selectDeck';
 import {connect} from 'react-redux';
 
-function DeckDetail (props) {
-    const addCard = () => {
+class DeckDetail extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            buttonDisabled: this.startQuizDisabled(),
+            buttonOpacity: this.startQuizDisabled() ? 0.5:1
+        }
+    }
+    static navigationOptions = ({navigation}) => ({
+        title: `${navigation.state.params.title}`,
+        headerRight: (<View></View>),
+        headerTitleStyle: 
+            {
+                alignSelf: 'center',
+                textAlign: 'center',
+                fontWeight:'normal',
+                fontSize: 22,
+                color: '#606060'
+            }
+    })
+    addCard = () => {
         console.log('add card');
-        props.navigation.navigate('NewCard',{id:props.deck.id});
+        this.props.navigation.navigate('NewCard',
+            {
+                id:this.props.deck.id,
+                updateQuizButton:this.updateQuizButton
+                
+            });
     }
-    const startQuiz = () => {
+    startQuiz = () => {
         console.log('start quiz');
-        props.navigation.navigate('Quiz',{id:props.deck.id});
+        this.props.navigation.navigate('Quiz',{id:this.props.deck.id,title:this.props.deck.title});
     }
+
+    updateQuizButton = (newState) => {
+        console.log('current state: ',this.state.buttonDisabled);
+        console.log('update quiz button state',newState);
+        this.setState(() => ({buttonDisabled:newState,buttonOpacity:0.5}));
+
+    }
+
+    startQuizDisabled = () => this.props.deck.cards.length === 0;
+
+    render() {
 
     return (
         <View style={styles.deck}>
             <View>
-                <Text style={styles.deckTitle}>{props.deck.title}</Text>
-                <Text style={styles.deckSubTitle}>{props.deck.cards.length} cards</Text>
+                <Text style={styles.deckTitle}>{this.props.deck.title}</Text>
+                <Text style={styles.deckSubTitle}>{this.props.deck.cards.length} cards</Text>
             </View>
             <View>
                 <TouchableOpacity
                     style={styles.androidAddCard}
-                    onPress={addCard}
+                    onPress={this.addCard}
                 >
                     <Text style={styles.androidAddCardBtn}>Add Card</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.androidStartQuiz}
-                    onPress={startQuiz}
+                    style={[styles.androidStartQuiz,{opacity: this.state.buttonOpacity}]}
+                    onPress={this.startQuiz}
+                    disabled={this.state.buttonDisabled}
                 >
-                    <Text style={styles.androidStartQuizBtn}>Start Quiz</Text>
+                    <Text 
+                        style={styles.androidStartQuizBtn} 
+                    >Start Quiz</Text>
                 </TouchableOpacity>
             </View>
         </View>
     )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -81,6 +120,14 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         borderWidth: 1
+    },
+    androidStartQuizDisable: {
+        marginTop:25,
+        backgroundColor: "green",
+        padding: 10,
+        borderRadius: 5,
+        borderWidth: 1,
+        opacity: 0.4
     },
     androidStartQuizBtn: {
         color: "white",

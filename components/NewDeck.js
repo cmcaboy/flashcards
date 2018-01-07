@@ -5,7 +5,8 @@ import {View,
     Platform, 
     StyleSheet, 
     TextInput,
-    Button
+    Button,
+    KeyboardAvoidingView
 } from 'react-native';
 import { gray, green, white, black,blue } from '../utils/colors';
 import {connect} from 'react-redux';
@@ -28,7 +29,7 @@ class NewDeck extends Component {
 
     render() {
         return (
-                <View style={styles.deck}>
+                <KeyboardAvoidingView style={styles.deck} behavior="padding">
                         <Text style={styles.question}>What is the title of your new deck?</Text>
                         <TextInput 
                             style={styles.title}
@@ -43,7 +44,7 @@ class NewDeck extends Component {
                         >
                             <Text style={styles.submitBtn}>SUBMIT</Text>
                         </TouchableOpacity>
-                 </View>
+                 </KeyboardAvoidingView>
         )
     }
 }

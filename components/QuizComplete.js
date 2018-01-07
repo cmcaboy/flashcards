@@ -21,10 +21,10 @@ const QuizComplete = (props) => {
                     <Text style={styles.finishBtnText}>Finish</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.finishBtn}
+                    style={styles.retakeBtn}
                     onPress={props.resetQuiz}
                 >
-                    <Text style={styles.finishBtnText}>Retake Quiz</Text>
+                    <Text style={styles.retakeBtnText}>Retake Quiz</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -62,9 +62,10 @@ const styles = StyleSheet.create({
     },
     finishBtn: {
         marginTop:25,
-        backgroundColor: "black",
+        backgroundColor: "green",
         padding: 10,
-        borderRadius: 5
+        borderRadius: 5,
+        marginBottom: 5
     },
     finishBtnText: {
         color: white,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     },
     retakeBtn: {
         marginTop:25,
-        backgroundColor: "green",
+        backgroundColor: "black",
         padding: 10,
         borderRadius: 5
     },
