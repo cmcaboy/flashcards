@@ -1,5 +1,3 @@
-// I could change the state instead of using stack navigator
-
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import selectDeck from '../selectors/selectDeck';
@@ -7,13 +5,13 @@ import {connect} from 'react-redux';
 import QuizComplete from './QuizComplete';
 
 class Quiz extends React.Component {
-
+    // Keep state of this application
     state = {
         currentQuestion: 0,
         numCorrect: 0,
         quizComplete: false
     }
-
+    // format the header
     static navigationOptions = ({navigation}) => ({
         title: `${navigation.state.params.title} quiz`,
         headerRight: (<View></View>),
@@ -36,7 +34,6 @@ class Quiz extends React.Component {
             ...prevState,
             numCorrect: this.state.numCorrect + 1
         }));
-        console.log(this.state);
         if(this.completeCheck()) {
             this.navigateToComplete();
         } else {
@@ -82,8 +79,6 @@ class Quiz extends React.Component {
     }
 
     render() {
-
-        console.log('this state at render--- ',this.state);
 
         if(this.state.quizComplete) {
             return (

@@ -15,6 +15,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Constants } from 'expo';
 import { store, persistor } from './store';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import { setLocalNotification } from './services/local_notifications';
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
   return (
@@ -78,6 +79,10 @@ const MainNavigator = StackNavigator({
 })
 
 export default class App extends React.Component {
+  // Set Local notifications right here
+  componentDidMount() {
+    setLocalNotification();
+  }
   render() {
     return (
       <Provider store={store}>

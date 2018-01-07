@@ -1,5 +1,7 @@
 const deckReducerDefaultState = [];
 
+// redux-persist will not work unless I name a const here. It did not work when I 
+// put export default without the const deckReducer.
 const deckReducer = (state = deckReducerDefaultState, action = {}) => {
   switch(action.type) {
     case 'ADD_DECK':

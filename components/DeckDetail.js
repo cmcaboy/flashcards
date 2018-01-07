@@ -3,6 +3,7 @@ import {View, Slider, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { gray, green, white, black,blue } from '../utils/colors';
 import selectDeck from '../selectors/selectDeck';
 import {connect} from 'react-redux';
+import { setLocalNotification, clearLocalNotification } from '../services/local_notifications';
 
 class DeckDetail extends React.Component {
     constructor(props) {
@@ -33,6 +34,8 @@ class DeckDetail extends React.Component {
             });
     }
     startQuiz = () => {
+        clearLocalNotification()
+            .then(setLocalNotification)
         this.props.navigation.navigate('Quiz',{id:this.props.deck.id,title:this.props.deck.title});
     }
 

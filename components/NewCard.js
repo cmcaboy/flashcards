@@ -53,6 +53,7 @@ class NewCard extends Component {
                             placeholder={"Question"}
                             autoFocus
                             multiline={true}
+                            autoGrow={true}
                         />
                         <TextInput 
                             style={styles.title}
@@ -61,6 +62,7 @@ class NewCard extends Component {
                             maxLength={80}
                             placeholder={"Answer"}
                             multiline={true}
+                            autoGrow={true}
                         />
                         <TouchableOpacity
                             style={styles.androidSubmitBtn}
@@ -94,11 +96,14 @@ const styles = StyleSheet.create({
     title: {
         width: 300,
         height: 50,
-        borderRadius: 2,
-        borderColor: gray,
+        borderRadius: 8,
+        borderColor: "black",
+        borderStyle: 'solid',
+        borderWidth: 1.25,
         paddingLeft: 5,
         paddingRight: 5,
         marginBottom: 25
+
     },
     iosSubmitBtn: {
         

@@ -37,6 +37,7 @@ class NewDeck extends Component {
                             value={this.state.title}
                             maxLength={40}
                             placeholder={"Deck Name"}
+                            autoFocus
                         />
                         <TouchableOpacity
                             style={styles.androidSubmitBtn}
@@ -74,7 +75,9 @@ const styles = StyleSheet.create({
         borderColor: gray,
         paddingLeft: 5,
         paddingRight: 5,
-        marginBottom: 25
+        marginBottom: 25,
+        borderWidth: 1.25,
+        borderRadius: 8
     },
     iosSubmitBtn: {
         

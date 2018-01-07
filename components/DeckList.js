@@ -10,6 +10,9 @@ class DeckList extends Component {
     }
 
     componentWillMount() {
+      // This was previously used to input test data. It is no longer needed
+      // now that persistence has been configured.
+
       /*
         const decks = [
             {
@@ -105,6 +108,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        // Redux-persist appends reducer to state. Therefore, I have to do the same.
+        
         decks: state.reducer,
         origProps: ownProps
     }
