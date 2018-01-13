@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     },
     androidStartQuizDisable: {
         marginTop:25,
-        backgroundColor: "#32CD32",
+        backgroundColor: "#D5F5E3",
         padding: 10,
         borderRadius: 5,
         borderWidth: 1
