@@ -22,9 +22,11 @@ class NewDeck extends Component {
     }
 
     onPress = () => {
-        this.props.dispatch(addDeck({title:this.state.title}));
+        const temp = this.props.dispatch(addDeck({title:this.state.title}));
         this.setState(() => ({title:''}));
+        console.log('dispatch return item ---',temp);
         this.props.navigation.goBack();
+        this.props.navigation.navigate('DeckDetail', {id:temp.deck.id,title:temp.deck.title})
     }
 
     render() {

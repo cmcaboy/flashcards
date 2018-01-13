@@ -40,14 +40,14 @@ class DeckDetail extends React.Component {
     }
 
     updateQuizButton = (newState) => {
-        this.setState(() => ({buttonDisabled:newState,buttonOpacity:0.5}));
+        this.setState(() => ({buttonDisabled:newState,buttonOpacity:newState?0.5:1}));
 
     }
 
     startQuizDisabled = () => this.props.deck.cards.length === 0;
 
     render() {
-
+        const isDisabled = this.props.deck.cards.length === 0;
     return (
         <View style={styles.deck}>
             <View>
@@ -62,14 +62,15 @@ class DeckDetail extends React.Component {
                     <Text style={styles.androidAddCardBtn}>Add Card</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={[styles.androidStartQuiz,{opacity: this.state.buttonOpacity}]}
+                    style={isDisabled ? styles.androidStartQuizDisable : styles.androidStartQuiz}
                     onPress={this.startQuiz}
-                    disabled={this.state.buttonDisabled}
+                    disabled={isDisabled}
                 >
                     <Text 
                         style={styles.androidStartQuizBtn} 
                     >Start Quiz</Text>
                 </TouchableOpacity>
+                {console.log(isDisabled)}
             </View>
         </View>
     )
@@ -94,7 +95,6 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     iosSubmitBtn: {
-        
         backgroundColor: "green",
         padding: 10,
         borderRadius: 7,
@@ -122,11 +122,10 @@ const styles = StyleSheet.create({
     },
     androidStartQuizDisable: {
         marginTop:25,
-        backgroundColor: "green",
+        backgroundColor: "#32CD32",
         padding: 10,
         borderRadius: 5,
-        borderWidth: 1,
-        opacity: 0.4
+        borderWidth: 1
     },
     androidStartQuizBtn: {
         color: "white",

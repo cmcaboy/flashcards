@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Platform, Animated } from 'react-native';
 import selectDeck from '../selectors/selectDeck';
 import {connect} from 'react-redux';
 import QuizComplete from './QuizComplete';
+
 
 class Quiz extends React.Component {
     // Keep state of this application
@@ -25,9 +26,7 @@ class Quiz extends React.Component {
                 color: '#606060'
             }
     })
-    flipAnswer = () => {
-        console.log('flip to answer');
-    }
+ 
 
     onCorrect = () => {
         this.setState((prevState) => ({
@@ -78,8 +77,53 @@ class Quiz extends React.Component {
         this.props.navigation.goBack();
     }
 
-    render() {
+    flipAnswer = () => {
+        console.log('flip to answer');
+        if (this.value >= 90) {
+            Animated.spring(this.animatedValue,{
+              toValue: 0,
+              friction: 8,
+              tension: 10
+            }).start();
+          } else {
+            Animated.spring(this.animatedValue,{
+              toValue: 180,
+              friction: 8,
+              tension: 10
+            }).start();
+          }
+    }
 
+    componentWillMount() {
+        this.animatedValue = new Animated.Value(0);
+
+        this.value = 0;
+        this.animatedValue.addListener(({ value }) => {
+          this.value = value;
+        })
+
+        this.frontInterpolate = this.animatedValue.interpolate({
+            inputRange: [0,180],
+            outputRange: ['0deg','180deg']
+        })
+        this.backInterpolate = this.animatedValue.interpolate({
+            inputRange: [0,180],
+            outputRange: ['180deg','360deg']
+        })
+    }
+
+    render() {
+        const frontAnimatedStyle = {
+            transform: [
+                {rotateY: this.frontInterpolate}
+            ]
+        }
+        const backAnimatedStyle = {
+            transform: [
+                { rotateY: this.backInterpolate }
+            ]
+        }
+        
         if(this.state.quizComplete) {
             return (
                 <QuizComplete 
@@ -99,12 +143,24 @@ class Quiz extends React.Component {
                 </Text>
                 
                 <View style={styles.questionContent}>
+                    <View style={styles.flipCardContainer}>
+                        
+                        <Animated.View style={[styles.flipCard,frontAnimatedStyle]}>
+                            <Text style={styles.question}>
+                                {console.log('question: ',this.props.deck.cards[this.state.currentQuestion].question)}
+                                {this.props.deck.cards[this.state.currentQuestion].question}
+                            </Text>
+                        </Animated.View>
+                        <Animated.View style={[backAnimatedStyle,styles.flipCard,styles.flipCardBack]}>
+                            <Text style={styles.question}>
+                                {console.log('answer: ',this.props.deck.cards[this.state.currentQuestion].answer)}
+                                {this.props.deck.cards[this.state.currentQuestion].answer}
+                            </Text>
+                        </Animated.View>
+                    </View>
                     <View>
-                        <Text style={styles.question}>
-                            {this.props.deck.cards[this.state.currentQuestion].question}
-                        </Text>
                         <TouchableOpacity
-                            onPress={this.flipAnswer}
+                            onPress={() => this.flipAnswer()}
                         >
                             <Text style={styles.answerTextBtn}>answer</Text>
                         </TouchableOpacity>
@@ -135,14 +191,28 @@ const styles = StyleSheet.create({
         padding: 10
     },
     questionContent: {
-        justifyContent: 'flex-end',
+        justifyContent: 'space-around',
         alignItems: 'center'
     },
     question: {
         fontSize: 44,
         textAlign: 'center',
-        fontWeight: '500',
-        marginBottom: 50
+        fontWeight: '500'
+    },
+    flipCardContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 100
+    },
+    flipCard: {
+        backfaceVisibility: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    flipCardBack: {
+        position: 'absolute',
+        top:0
     },
     answerTextBtn: {
         color: "red",
