@@ -4,13 +4,13 @@ import selectDeck from '../selectors/selectDeck';
 import {connect} from 'react-redux';
 import QuizComplete from './QuizComplete';
 
-
 class Quiz extends React.Component {
     // Keep state of this application
     state = {
         currentQuestion: 0,
         numCorrect: 0,
-        quizComplete: false
+        quizComplete: false,
+        displayAnswer: false
     }
     // format the header
     static navigationOptions = ({navigation}) => ({
@@ -38,6 +38,7 @@ class Quiz extends React.Component {
         } else {
             this.setState((prevState) => ({
                 ...prevState,
+                displayAnswer: false,
                 currentQuestion: this.state.currentQuestion + 1
             }));
         }
@@ -49,6 +50,7 @@ class Quiz extends React.Component {
         } else {
             this.setState((prevState) => ({
                 ...prevState,
+                displayAnswer: false,
                 currentQuestion: prevState.currentQuestion + 1
             }));
         }
@@ -144,25 +146,19 @@ class Quiz extends React.Component {
                 
                 <View style={styles.questionContent}>
                     <View style={styles.flipCardContainer}>
-                        
-                        <Animated.View style={[styles.flipCard,frontAnimatedStyle]}>
-                            <Text style={styles.question}>
-                                {console.log('question: ',this.props.deck.cards[this.state.currentQuestion].question)}
-                                {this.props.deck.cards[this.state.currentQuestion].question}
-                            </Text>
-                        </Animated.View>
-                        <Animated.View style={[backAnimatedStyle,styles.flipCard,styles.flipCardBack]}>
-                            <Text style={styles.question}>
-                                {console.log('answer: ',this.props.deck.cards[this.state.currentQuestion].answer)}
-                                {this.props.deck.cards[this.state.currentQuestion].answer}
-                            </Text>
-                        </Animated.View>
+                            <View>
+                                <Text style={styles.question}>{this.props.deck.cards[this.state.currentQuestion].question}</Text>
+                            </View>
                     </View>
                     <View>
                         <TouchableOpacity
-                            onPress={() => this.flipAnswer()}
+                            onPress={() => this.setState((prevState) => ({...prevState,displayAnswer: !prevState.displayAnswer}))}
                         >
-                            <Text style={styles.answerTextBtn}>answer</Text>
+                            {this.state.displayAnswer ? (
+                                <Text style={styles.answerTextBtn}>{this.props.deck.cards[this.state.currentQuestion].answer}</Text>
+                            ) : (
+                                <Text style={styles.answerTextBtn}>Press for Answer</Text>
+                            )}
                         </TouchableOpacity>
                     </View>
                     <View style={styles.buttons}>
@@ -197,18 +193,21 @@ const styles = StyleSheet.create({
     question: {
         fontSize: 44,
         textAlign: 'center',
-        fontWeight: '500'
+        fontWeight: '500',
+        borderWidth: 0
     },
     flipCardContainer: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 100
     },
     flipCard: {
-        backfaceVisibility: 'hidden',
+        flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderWidth: 0,
+        height: 50,
+        width: 200
     },
     flipCardBack: {
         position: 'absolute',
